@@ -14,7 +14,12 @@ use InfyOm\Generator\Utils\ResponseUtil;
  * Class AppBaseController
  */
 class AppBaseController extends Controller
-{
+{/**
+ * @OA\Get(
+ *     path="/projec",
+ *     @OA\Response(response="200", description="Display a listing of projects.")
+ * )
+ */
     public function sendResponse($result, $message)
     {
         return response()->json(ResponseUtil::makeResponse($message, $result));
