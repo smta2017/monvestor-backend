@@ -15,7 +15,7 @@ class AppBaseController extends Controller
         return response()->json(ResponseUtil::makeResponse($message, $result));
     }
 
-    public function sendError($error, $code = 404)
+    public function sendError($error='', $code = 404)
     {
         return response()->json(ResponseUtil::makeError($error), $code);
     }

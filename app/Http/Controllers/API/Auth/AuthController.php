@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\API\Auth\RegisterRequest;
+use App\Http\Requests\API\Auth\RegisterPrivetUserRequest;
+use App\Http\Requests\API\Auth\RegisterPublicUserRequest;
+use App\Http\Resources\User\RegisterPrivetUser;
+use App\Http\Resources\User\RegisterPublicUser;
 use App\Http\Resources\UserResource;
 use App\Repositories\Auth\AuthRepository;
 use Illuminate\Http\Request;
@@ -13,28 +16,67 @@ use Auth;
 class AuthController extends AppBaseController
 {
 
-
     protected $auth;
 
 
     public function __construct(AuthRepository $auth)
     {
-        $this->middleware('auth:sanctum', ['except' => ['login', 'register']]);
+        $this->middleware('auth:sanctum', ['except' => ['loginPublic','loginPrivet','loginPrivetConfirm', 'registerPublic','registerPrivet']]);
         return $this->auth = $auth;
     }
 
-   
-    public function login()
+
+    public function loginPublic(Request $request)
     {
-        $credentials = request(['email', 'password']);
-        return $this->auth->loginUser($credentials);
+        $res = $this->auth->loginPublicUser($request);
+        if (isset($res['success']) && !$res['success']) {
+            return  $this->sendError($res["message"], 401);
+        } else {
+            return $this->sendResponse(new RegisterPublicUser($res), 'success');
+        }
+    }
+
+    public function loginPrivet(Request $request)
+    {
+        $res = $this->auth->loginPrivetUser($request);
+        if (isset($res['success']) && !$res['success']) {
+            return  $this->sendError($res["message"], 401);
+        } else {
+            return $this->sendSuccess('success');
+        }
+    }
+
+    public function loginPrivetConfirm(Request $request)
+    {
+        $res = $this->auth->loginPrivetUserConfirm($request);
+        if (isset($res['success']) && !$res['success']) {
+            return  $this->sendError($res["message"], 401);
+        } else {
+            return $this->sendResponse(new RegisterPrivetUser($res), 'success');
+
+            // return $this->sendSuccess('success');
+        }
     }
 
 
-    public function register(RegisterRequest $request)
+    public function registerPublic(RegisterPublicUserRequest $request)
     {
-        $user = $this->auth->registerUser($request);
-        return  $this->sendResponse($user, "success");
+        $res = $this->auth->registerPublicUser($request);
+        if (isset($res['success']) && !$res['success']) {
+            return $this->sendError($res["message"], 401);
+        } else {
+            return $this->sendResponse(new RegisterPublicUser($res), 'success');
+        }
+    }
+
+    public function registerPrivet(RegisterPrivetUserRequest $request)
+    {
+        $res = $this->auth->registerPrivetUser($request);
+        if (isset($res['success']) && !$res['success']) {
+            return $this->sendError($res["message"], 401);
+        } else {
+            return $this->sendResponse(new RegisterPrivetUser($res), 'success');
+        }
     }
 
 
