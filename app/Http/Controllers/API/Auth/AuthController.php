@@ -21,7 +21,7 @@ class AuthController extends AppBaseController
 
     public function __construct(AuthRepository $auth)
     {
-        $this->middleware('auth:sanctum', ['except' => ['loginPublic','loginPrivet','loginPrivetConfirm', 'registerPublic','registerPrivet']]);
+        $this->middleware('auth:sanctum', ['except' => ['loginPublic', 'loginPrivet', 'loginPrivetConfirm', 'registerPublic', 'registerPrivet']]);
         return $this->auth = $auth;
     }
 
@@ -82,7 +82,7 @@ class AuthController extends AppBaseController
 
     public function me()
     {
-        return ApiResponse::format("sucsess", new UserResource(auth()->user()));
+        return $this->sendResponse(new UserResource(auth()->user()), "sucsess");
     }
 
     /**
@@ -92,7 +92,8 @@ class AuthController extends AppBaseController
      */
     public function logout()
     {
-        return $this->auth->logout(auth()->user());
+        $this->auth->logout(auth()->user());
+        return $this->sendSuccess('success');
     }
 
     /**

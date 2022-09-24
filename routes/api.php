@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('send-otp', [VerificationController::class, 'sendMobileOTP']);
+    
     Route::post('login-public', [AuthController::class, 'loginPublic']);
     Route::post('register-public', [AuthController::class, 'registerPublic']);
 
@@ -30,7 +31,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login-privet-confirm', [AuthController::class, 'loginPrivetConfirm']);
 
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
+    // Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 });
 

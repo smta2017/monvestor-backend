@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 trait OTPTrait
 {
-    public static function sendOTP($phone, $countryCode='+20')
+    public static function sendOTP($phone, $countryCode = '+20')
     {
-        // if (env("APP_ENV")=='local') {
-        //     return 1;
-        // }
+        if (env("APP_ENV") == 'local') {
+            return ['success' => true];
+        }
+
+
         $VIA = 'sms';
         $ch = curl_init();
 
@@ -36,9 +38,9 @@ trait OTPTrait
 
     public static function verifyOTP($request)
     {
-        // if (env("APP_ENV")=='local') {
-        //     return 1;
-        // }
+        if (env("APP_ENV") == 'local') {
+            return ['success' => true];
+        }
 
         $USER_PHONE = $request['phone'];
         $COUNTRY_CODE = $request['country_code'];
@@ -60,7 +62,7 @@ trait OTPTrait
             echo 'Error:' . curl_error($ch);
         }
         curl_close($ch);
-        $result = json_decode($result,true);
+        $result = json_decode($result, true);
 
         return $result;
         // if ($result->success) {
@@ -70,7 +72,7 @@ trait OTPTrait
         //         return view(backpack_view('auth.confirmotp'), ['error'=>$result->message,'phone' => $USER_PHONE, 'country_code' => $COUNTRY_CODE]);
         //     }
         //     else if ($result->error_code='60023') {
-                
+
         //     }
         //     return $result;
         // }

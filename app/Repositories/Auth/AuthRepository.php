@@ -304,7 +304,7 @@ class AuthRepository extends BaseRepository
      */
     public function logout($user): JsonResponse
     {
-        return  ApiResponse::format("success", $user->tokens()->delete());
+        return \response()->json($user->tokens()->delete());
     }
 
     /**
