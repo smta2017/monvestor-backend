@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\API\Auth;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\AppBaseController;
@@ -15,8 +15,9 @@ class VerificationController extends AppBaseController
 
     public function sendMobileOTP(Request $request)
     {
-        $res =  $this->sendOTP($request->phone_number, $request->country_code);
-        return  $this->sendResponse($res, "success");
+    return   $x= 'sss';
+        // $res =  $this->sendOTP($request->phone_number, $request->country_code);
+        // return  $this->sendResponse($res, "success");
     }
 
 
