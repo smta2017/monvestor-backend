@@ -15,9 +15,8 @@ class VerificationController extends AppBaseController
 
     public function sendMobileOTP(Request $request)
     {
-    return   $x= 'sss';
-        // $res =  $this->sendOTP($request->phone_number, $request->country_code);
-        // return  $this->sendResponse($res, "success");
+        $res =  $this->sendOTP($request->phone_number, $request->country_code);
+        return  $this->sendResponse($res, "success");
     }
 
 
